@@ -174,8 +174,6 @@ def upload_file():
     return render_template("checkout.html")
 
 
-# ---------------------------------
-
 # ---------------------------------------------DISPLAY
 
 @app.route('/uploader/display/<filename>')
