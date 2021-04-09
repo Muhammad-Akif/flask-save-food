@@ -69,7 +69,6 @@
             itemList.push(item);
             alert('item with ' + id + " " + storeName + " will be added to cart")
         }
-        // console.log(itemList);
     }
 
     function go_to_cart(username, password, group) {
@@ -78,10 +77,6 @@
 
         window.location.href = "http://127.0.0.1:5000/show/cart/" + data + '/' + prevInfo;
     }
-
-    // document.getElementById("cartbtn").onclick = function () {
-
-    // }
 </script>
 
 {% endblock %}
