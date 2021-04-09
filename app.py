@@ -232,7 +232,7 @@ def acceptedForm(data_json):
         db.session.commit()
         return redirect(request.url)
     else:
-        return 'Thanks for submitting your form'
+        return '<body style="background-color: lightgrey"><div style="background-color: white;"><h1 style="display:table;margin: 20% auto; color: red;">Thanks for submitting your form<h1></div></body>'
 
 
 # ---------------------------------------------
@@ -266,6 +266,8 @@ def create(name, username, password, cpass, group):
 
 @app.route('/login/<username>/<password>/<group>')
 def getLoginStore(username, password, group):
+    prevInfo = [username, password, group]
+    # print('====================', username)
     if group == "Store":
         isFound = store.query.filter_by(username=username).first()
         if isFound != None:
@@ -282,7 +284,7 @@ def getLoginStore(username, password, group):
                     except:
                         value = deletedfooditems.query.filter_by(id=item.fooditemid).first().itemName
                     obj[item.fooditemid] = value
-                return render_template("item-list-store.html", usrname=isFound.username, items=items, orders=order, foodnames=obj)
+                return render_template("item-list-store.html", usrname=isFound.username, items=items, orders=order, foodnames=obj, prevInfo=prevInfo)
             else : return render_template("pass-not-match.html")
         else: return render_template("user-not-found.html")
     elif group == "Charity":
@@ -291,7 +293,7 @@ def getLoginStore(username, password, group):
             if password == isFound.password : 
                 items = {}
                 items = fooditem.query.filter_by().all()
-                return render_template("item-list-charity.html", usrname=isFound.username, items=items)
+                return render_template("item-list-charity.html", usrname=isFound.username, items=items, prevInfo=prevInfo)
             else : return render_template("pass-not-match.html")
         else: return render_template("user-not-found.html")
    
@@ -329,8 +331,9 @@ def additem(username, itemName, expDay, expMonth, expYear, qx):
     return redirect("http://127.0.0.1:5000/list/item/"+username)
 
 
-@app.route('/show/cart/<data>')
-def goToCart(data) :
+@app.route('/show/cart/<data>/<prevInfo>')
+def goToCart(data, prevInfo):
+    prevInfo = json.loads(prevInfo)
     # print('inside of cart -----------------------------',type(data))
     datas=json.loads(data)
     code = ''
@@ -341,7 +344,7 @@ def goToCart(data) :
         code+=string
     qr = pyqrcode.create(code) #saving data in qr code
     qr.png('static/images/qrcode.png', scale=8) #saving qrcode image
-    return render_template("cart.html", data=json.loads(data), jsons=data)
+    return render_template("cart.html", data=json.loads(data), jsons=data, prevInfo=prevInfo)
 
 @app.route('/qr/<data>')
 def genrateQR(data):

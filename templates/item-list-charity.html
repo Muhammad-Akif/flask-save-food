@@ -18,7 +18,8 @@
         </video>
     </div>
     <div id="username">Welcome! <label id="usrname">{{usrname}}</label>
-        <button class="filledbtn" id="cartbtn">Go to Cart</button>
+        <button class="filledbtn" onclick="go_to_cart('{{prevInfo[0]}}','{{prevInfo[1]}}','{{prevInfo[2]}}' )">Go to
+            Cart</button>
     </div>
 </div>
 <div class="container">
@@ -35,9 +36,8 @@
                     </li>
                     <li>
                         <button class="filledsmbtn" id="toCart"
-                        onclick="clicked('{{item.id}}', '{{item.username}}', '{{item.itemName}}', '{{item.qx}}')">Add
-                        to
-                        Cart</button>
+                            onclick="clicked('{{item.id}}', '{{item.username}}', '{{item.itemName}}', '{{item.qx}}')">Add
+                            to Cart</button>
                     </li>
                 </ul>
             </div>
@@ -72,10 +72,16 @@
         // console.log(itemList);
     }
 
-    document.getElementById("cartbtn").onclick = function () {
+    function go_to_cart(username, password, group) {
         var data = JSON.stringify(itemList); //it's a list of obj
-        window.location.href = "http://127.0.0.1:5000/show/cart/" + data;
+        const prevInfo = JSON.stringify([username, password, group]);
+
+        window.location.href = "http://127.0.0.1:5000/show/cart/" + data + '/' + prevInfo;
     }
+
+    // document.getElementById("cartbtn").onclick = function () {
+
+    // }
 </script>
 
 {% endblock %}

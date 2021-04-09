@@ -18,7 +18,7 @@
         </video>
     </div>
     <div id="username">Welcome! Charity
-        <button class="filledbtn">Add More Item</button>
+        <button class="filledbtn" id="username" onclick="add_more_item('{{prevInfo[0]}}','{{prevInfo[1]}}','{{prevInfo[2]}}')"><span>Add More Item</span></button>
     </div>
 </div>
 
@@ -54,6 +54,11 @@
 </div>
 
 <script>
+    
+    function add_more_item (usrname, password, group) {
+        window.location.href = "http://127.0.0.1:5000/login/"+usrname+"/"+password+'/'+group;
+    }
+
 
     function incItem(index, qx, actualqx) {
         var q = document.getElementById(index).innerHTML;
